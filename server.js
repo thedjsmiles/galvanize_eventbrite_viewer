@@ -4,7 +4,6 @@ var express = require('express')
 var morgan = require('morgan')
 var bodyParser = require('body-parser')
 var port = process.env.PORT || 3000
-var databaseConfig = require('./config/database_config')
 var methodOverride = require('method-override')
 // app configuration
 var app = express()

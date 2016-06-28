@@ -1,27 +1,29 @@
 // our router file for our API
 var express = require('express')
 router = express.Router()
-var ModelBase = require('bookshelf-modelbase')(bookshelf)
+var eventbriteAPI = require('node-eventbrite');
+var token = 'WBRCGRRSTLNGIFMWETP2';
+
+try {
+    var api = eventbriteAPI({
+      token: token,
+      version : 'v3'
+    })
+} catch (error) {
+    console.log(error.message); // the options are missing, this function throws an error.
+}
+
+
 
 router.route('/').get(function(req, res) {
-  res.send('Hello World')
-})
-var yourTable = ModelBase.extend({
-  tableName: 'post_contents'
+  eventbriteData = api.search({
+      'q': 'galvanize',
+      'venue.country': 'US'
+    }, (err, apiRes) => {
+    res.json(apiRes)  
+  })
 })
 
-// api route
-router.route('/logToDatabase').post(function(req, res) {
-  console.log(req.body)
-  yourTable.create({ 'post_contents' : req.body })
-    .catch((error) => {
-      console.log(error)
-      res.send("error")
-    })
-    .then((collection) => {
-      console.log( 'record added:' + collection )
-      res.send('Record added to DB')
-    })
-})
+
 // send our router to our app
 module.exports = router
