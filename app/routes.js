@@ -3,16 +3,11 @@ var express = require('express')
 router = express.Router()
 var eventbriteAPI = require('node-eventbrite');
 var token = 'WBRCGRRSTLNGIFMWETP2';
-
-try {
-    var api = eventbriteAPI({
-      token: token,
-      version : 'v3'
-    })
-} catch (error) {
-    console.log(error.message); // the options are missing, this function throws an error.
-}
-
+var api = eventbriteAPI({
+  token: token,
+  version : 'v3'
+})
+var db = require('./config/db.js')
 
 
 router.route('/').get(function(req, res) {
@@ -20,9 +15,10 @@ router.route('/').get(function(req, res) {
       'q': 'galvanize',
       'venue.country': 'US'
     }, (err, apiRes) => {
-    res.json(apiRes)  
+    res.json(apiRes)
   })
 })
+
 
 
 // send our router to our app
