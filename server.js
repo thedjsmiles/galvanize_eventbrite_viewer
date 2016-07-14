@@ -1,20 +1,7 @@
 // require all our dependencies
-var morgan = require('morgan')
-var port = process.env.PORT || 3000
 var knexfile = require('./app/config/knexfile')['production']
 var knex = require('knex')(knexfile)
-
-// ({
-//   client: 'mysql',
-//   connection: {
-//     host: '127.0.0.1',
-//     user: 'root',
-//     password: '',
-//     database: 'eventbrite'
-//   }
-// })
-
-
+var schedule = require('node-schedule')
 var eventbriteAPI = require('node-eventbrite');
 var token = 'WBRCGRRSTLNGIFMWETP2';
 var eventbrite = eventbriteAPI({
@@ -22,8 +9,7 @@ var eventbrite = eventbriteAPI({
   version: 'v3'
 })
 
-createOrUpdateEventsFromEb = () => {
-
+getAllGalvanizeEvents = () => {
   eventbriteData = eventbrite.search({
     'q': 'galvanize',
     'venue.country': 'US'
@@ -92,5 +78,12 @@ createOrUpdateEventsFromEb = () => {
 
   })
 }
+// schedule our task:
+schedule.scheduleJob('*/1 * * * *', function(){
+  getAllGalvanizeEvents()
+})
+// schedule.scheduleJob('*/1 * * * *', function(){
+  // console.log('The answer to life, the universe, and everything!');
+// })
 
-createOrUpdateEventsFromEb()
+// createOrUpdateEventsFromEb()
