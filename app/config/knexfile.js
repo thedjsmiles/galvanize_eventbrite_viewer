@@ -1,16 +1,20 @@
 module.exports = {
-  development: {
+  production: {
     client: 'mysql',
     connection: {
-      database: 'eventbrite',
-      user:     'root'
-    },
-    pool: {
-      min: 0,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
+      database: "eventbrite",
+      user: "alexm",
+      password: "password123",
+      host: "173.194.251.221"
+    }
+  },
+  local: {
+    client: 'mysql',
+    connection: {
+        host: '127.0.0.1',
+        user: '',
+        password: '',
+        database: 'eventbrite'
     }
   }
 };

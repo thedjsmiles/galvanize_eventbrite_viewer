@@ -1,16 +1,20 @@
 // require all our dependencies
 var morgan = require('morgan')
 var port = process.env.PORT || 3000
+var knexfile = require('./app/config/knexfile')['production']
+var knex = require('knex')(knexfile)
 
-var knex = require('knex')({
-  client: 'mysql',
-  connection: {
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'eventbrite'
-  }
-})
+// ({
+//   client: 'mysql',
+//   connection: {
+//     host: '127.0.0.1',
+//     user: 'root',
+//     password: '',
+//     database: 'eventbrite'
+//   }
+// })
+
+
 var eventbriteAPI = require('node-eventbrite');
 var token = 'WBRCGRRSTLNGIFMWETP2';
 var eventbrite = eventbriteAPI({
